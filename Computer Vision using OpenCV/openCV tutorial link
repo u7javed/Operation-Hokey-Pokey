@@ -1,0 +1,4 @@
+https://www.instructables.com/id/Face-detection-and-tracking-with-Arduino-and-OpenC/
+
+First we need an operating camera attached to our car model and then use Arduino's (attached) cam_servo.ino to take input and feed
+it to the openCV api. Althought that website is for facetracking, we can use similar api to detect blocks instead of faces.
