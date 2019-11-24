@@ -1,15 +1,20 @@
 #include <Servo.h>
 #include <AFMotor.h>
+//#include <Pixy2.h>
+const uint16_t BLUE = 1;
+const uint16_t PURPLE = 2;
+const uint16_t RED = 3;
+const uint16_t YELLOW = 4;
 
-//int pin = 10; // connected to the Trig on the module, this serves as both Trigger and Echo
+//Pixy2 pixy;
 int motor1p= 3;
 AF_DCMotor leftmotor(motor1p), rightmotor(4), rightfront(1), leftfront(2);
 Servo ultra;
 int servoPin= 3;
-long duration;
 int distance;
 
-int i;
+unsigned long times= 0;
+int period= 5500;
 
 void setup(){
   leftmotor.setSpeed(255);
@@ -24,24 +29,56 @@ void setup(){
   rightfront.run(RELEASE);
 
   ultra.attach(9);//servo
+  ultra.write(0);
+//  Serial.begin(115200);
+  Serial.print("Starting...\n");
+
+//  pixy.init();
 }
 
 void loop(){
-  forward();
-  delay(1000);
+  times= millis();
+  while(millis() < times + period){
+    forward();
 
-  stops();
-  delay(1000);
+    if(){
+      stops();
+      delay(1000);
+      ultra.write(90);
+      delay(500);
+      ultra.write(0);
+      delay(500);
+    }
+  }
+    stops();
+    delay(1000);
 
-  backwards();
-  delay(1000);
+    times= millis();
+    forward();
+    delay(3500-times);
 
-//  if(){
-//    stops();
-//    delay(1000);
-//    ultra.write(90);
-//    delay(10000);
-//  }
+    times= millis();
+    while(millis() < times + period){
+    backwards();
+
+    if(){
+      stops();
+      delay(1000);
+      ultra.write(90);
+      delay(500);
+      ultra.write(0);
+      delay(500);
+    }
+  }
+    stops();
+    delay(1000);
+
+    times= millis();
+    backwards();
+    delay(3500 - times);
+    
+    stops();
+    delay(1000);
 }
 
 void forward()
@@ -54,7 +91,7 @@ void forward()
    leftmotor.setSpeed(255);
    rightfront.setSpeed(255);
    leftfront.setSpeed(255);
-   delay(1500);
+//   delay(1);
 }
 
 void backwards()
@@ -67,7 +104,7 @@ void backwards()
     leftmotor.setSpeed(255);
     rightfront.setSpeed(255);
     leftfront.setSpeed(255);
-    delay(1500);
+//    delay(1);
 }
 
 void stops()
